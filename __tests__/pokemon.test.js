@@ -3,6 +3,7 @@ const {Fire, Water, Grass, Normal} = require(`../elements`)
 const {Charmander, Squirtle, Bulbasaur, Rattata} = require(`../species`)
 const Pokeball = require(`../pokeballs`)
 const Trainer = require(`../trainer`)
+const battle = require(`../battle`)
 
 describe(`pokemon methods`, () => {
     test(`takeDamage reduces pokemon's hitPoints by attackPoints`, () => {
@@ -152,5 +153,18 @@ describe(`trainer methods`, () => {
         ash.catch(vaporeon)
         expect(ash.getPokemon(pokemonName).name).toBe("Eevee")
 
+    })
+})
+
+describe(`fight func`, () => {
+    test.only(`runs through a simulation of attacks until one pokemon has fainted`, () => {
+        const vaporeon = new Water ("Vaporeon", 70, 19, "Hydro pump")
+        const leafeon = new Grass ("Leafeon", 65, 17, "Giga drain")
+        const ash = new Trainer("Ash")
+        const sam = new Trainer("Sam")
+        ash.catch(vaporeon)
+        sam.catch(leafeon)
+        const output = battle(ash, "Vaporeon", sam, "Leafeon")
+        expect(output).toBe("Leafeon")
     })
 })
